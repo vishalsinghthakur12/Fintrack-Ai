@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fffaf5">
+  <meta name="description" content="FinTrack AI guided financial planning chatbot">
+  <title>FinTrack AI — Financial Chatbot</title>
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+  <div class="site-shell">
+    <header class="site-header">
+      <a class="site-brand" href="/" aria-label="FinTrack AI home">
+        <span class="site-brand-mark" aria-hidden="true">F</span>
+        <span>FinTrack <strong>AI</strong></span>
+      </a>
+      <div class="site-badge"><span></span> Your guided money workspace</div>
+    </header>
+
+    <main class="page-shell">
+      <section class="product-story" aria-labelledby="pageTitle">
+        <p class="eyebrow">Money planning, made conversational</p>
+        <h1 id="pageTitle">Build better money habits, one clear step at a time.</h1>
+        <p class="hero-copy">
+          FinTrack AI brings your income, spending, savings goals, and financial
+          progress into one guided conversation—without complicated dashboards.
+        </p>
+
+        <div class="benefit-list" aria-label="FinTrack AI benefits">
+          <article class="benefit-card">
+            <span class="benefit-number">01</span>
+            <div>
+              <h2>Understand your cash flow</h2>
+              <p>Bring monthly income and eleven expense categories into one dependable view.</p>
+            </div>
+          </article>
+          <article class="benefit-card">
+            <span class="benefit-number">02</span>
+            <div>
+              <h2>Turn goals into monthly steps</h2>
+              <p>Get a practical saving target based on your real financial position.</p>
+            </div>
+          </article>
+          <article class="benefit-card">
+            <span class="benefit-number">03</span>
+            <div>
+              <h2>Track progress as it happens</h2>
+              <p>Record contributions and see your plan, history, and analytics stay in sync.</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="journey-strip">
+          <p>Your FinTrack journey</p>
+          <div aria-label="Profile, plan, and progress">
+            <span>Profile</span><i aria-hidden="true">→</i><span>Plan</span><i aria-hidden="true">→</i><span>Progress</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="chatbot" aria-label="FinTrack AI chatbot">
+      <header class="chat-header">
+        <div class="brand-lockup">
+          <div class="brand-mark" aria-hidden="true">AI</div>
+          <div>
+            <h2>FinTrack Assistant</h2>
+            <p><span class="status-dot"></span><span id="statusText">Secure financial assistant</span></p>
+          </div>
+        </div>
+        <button id="menuButton" class="header-action hidden" type="button" aria-label="Return to main menu">Menu</button>
+      </header>
+
+      <div id="notice" class="notice hidden" role="status"></div>
+
+      <div id="chatScroll" class="chat-scroll" aria-live="polite" aria-label="Conversation">
+        <div id="messages" class="messages"></div>
+        <div id="activeStep" class="active-step"></div>
+        <div id="anytimeMessages" class="anytime-messages" aria-label="Ask anytime responses"></div>
+      </div>
+
+      <footer class="composer-wrap">
+        <p class="composer-label"><span></span> Ask anything, anytime</p>
+        <form id="queryForm" class="composer">
+          <label class="sr-only" for="queryInput">Ask FinTrack AI a question</label>
+          <input
+            id="queryInput"
+            name="query"
+            type="text"
+            maxlength="500"
+            autocomplete="off"
+            placeholder="Type your question here…"
+          >
+          <button type="submit" aria-label="Send message">
+            <span aria-hidden="true">➤</span>
+          </button>
+        </form>
+        <p class="composer-note">Your current guided step stays open while you ask</p>
+      </footer>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Designed for clear, private, INR-based financial planning.</p>
+      <p>FinTrack AI · Your data, your plan, your pace.</p>
+    </footer>
+  </div>
+
+  <div id="toastRegion" class="toast-region" aria-live="assertive"></div>
+  <script src="/static/app.js" defer></script>
+</body>
+</html>
