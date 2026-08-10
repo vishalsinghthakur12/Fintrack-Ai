@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinTrack AI Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+            background:
+                radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 25%),
+                radial-gradient(circle at bottom right, rgba(139, 92, 246, 0.18), transparent 30%),
+                linear-gradient(135deg, #020617, #0f172a 35%, #111827 70%, #030712);
+            color: #fff;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(circle at center, black 35%, transparent 95%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .floating-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(20px);
+            opacity: 0.5;
+            z-index: 0;
+            animation: floatOrb 10s ease-in-out infinite;
+        }
+
+        .orb1 {
+            width: 220px;
+            height: 220px;
+            background: rgba(59, 130, 246, 0.18);
+            top: 8%;
+            left: 6%;
+        }
+
+        .orb2 {
+            width: 280px;
+            height: 280px;
+            background: rgba(168, 85, 247, 0.16);
+            bottom: 10%;
+            right: 8%;
+            animation-delay: 2s;
+        }
+
+        .orb3 {
+            width: 180px;
+            height: 180px;
+            background: rgba(16, 185, 129, 0.14);
+            top: 55%;
+            left: 45%;
+            animation-delay: 4s;
+        }
+
+        @keyframes floatOrb {
+            0%, 100% {
+                transform: translateY(0px) translateX(0px) scale(1);
+            }
+            25% {
+                transform: translateY(-18px) translateX(12px) scale(1.04);
+            }
+            50% {
+                transform: translateY(10px) translateX(-8px) scale(0.97);
+            }
+            75% {
+                transform: translateY(-8px) translateX(16px) scale(1.02);
+            }
+        }
+
+        .dashboard-wrapper {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 1380px;
+            margin: 0 auto;
+            padding: 35px 24px 50px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .brand-section h1 {
+            font-size: 2.3rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            background: linear-gradient(90deg, #ffffff, #93c5fd, #c4b5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-section p {
+            margin-top: 8px;
+            color: #cbd5e1;
+            font-size: 0.98rem;
+        }
+
+        .profile-box {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 18px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(14px);
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            animation: fadeUp 0.8s ease;
+        }
+
+        .avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .profile-info small {
+            display: block;
+            color: #94a3b8;
+            margin-bottom: 4px;
+            font-size: 0.8rem;
+        }
+
+        .profile-info strong {
+            color: #f8fafc;
+            font-size: 1rem;
+            word-break: break-word;
+        }
+
+        .hero-panel {
+            position: relative;
+            overflow: hidden;
+            border-radius: 28px;
+            padding: 30px;
+            margin-bottom: 28px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04));
+            border: 1px solid rgba(255,255,255,0.09);
+            backdrop-filter: blur(18px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.28);
+            animation: fadeUp 0.9s ease;
+        }
+
+        .hero-panel::before {
+            content: "";
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            right: -80px;
+            top: -80px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(99,102,241,0.35), transparent 70%);
+        }
+
+        .hero-panel::after {
+            content: "";
+            position: absolute;
+            width: 240px;
+            height: 240px;
+            left: -60px;
+            bottom: -60px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(14,165,233,0.22), transparent 70%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .hero-text h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .hero-text p {
+            color: #cbd5e1;
+            max-width: 760px;
+            line-height: 1.7;
+            font-size: 0.98rem;
+        }
+
+        .hero-badge {
+            padding: 12px 18px;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.09);
+            color: #e2e8f0;
+            font-weight: 600;
+            box-shadow: inset 0 0 20px rgba(255,255,255,0.02);
+        }
+
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            position: relative;
+            overflow: hidden;
+            padding: 22px;
+            border-radius: 22px;
+            background: rgba(255,255,255,0.055);
+            border: 1px solid rgba(255,255,255,0.07);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 14px 35px rgba(0,0,0,0.24);
+            transition: transform 0.35s ease, box-shadow 0.35s ease, border 0.35s ease;
+            animation: fadeUp 1s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(96, 165, 250, 0.35);
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.18);
+        }
+
+        .stat-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.06), transparent);
+            transform: translateX(-100%);
+            transition: 0.7s;
+        }
+
+        .stat-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .stat-title {
+            font-size: 0.92rem;
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 1.7rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stat-note {
+            font-size: 0.88rem;
+            color: #cbd5e1;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            margin-bottom: 18px;
+            font-weight: 700;
+            color: #f8fafc;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 22px;
+        }
+
+        .dashboard-card {
+            position: relative;
+            overflow: hidden;
+            display: block;
+            text-decoration: none;
+            color: white;
+            min-height: 210px;
+            padding: 24px;
+            border-radius: 24px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.24);
+            transition: transform 0.35s ease, box-shadow 0.35s ease, border 0.35s ease;
+            animation: fadeUp 1.1s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(147, 197, 253, 0.28);
+            box-shadow: 0 22px 55px rgba(59, 130, 246, 0.18);
+        }
+
+        .dashboard-card::before {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            top: -60px;
+            right: -50px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.10), transparent 70%);
+            transition: transform 0.4s ease;
+        }
+
+        .dashboard-card:hover::before {
+            transform: scale(1.15);
+        }
+
+        .dashboard-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.08), transparent);
+            transform: translateX(-120%);
+            transition: transform 0.75s ease;
+        }
+
+        .dashboard-card:hover::after {
+            transform: translateX(120%);
+        }
+
+        .card-icon {
+            width: 58px;
+            height: 58px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 18px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.22);
+        }
+
+        .income-icon {
+            background: linear-gradient(135deg, #10b981, #06b6d4);
+        }
+
+        .expense-icon {
+            background: linear-gradient(135deg, #ef4444, #f97316);
+        }
+
+        .goal-icon {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+        }
+
+        .analytics-icon {
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+        }
+
+        .settings-icon {
+            background: linear-gradient(135deg, #64748b, #334155);
+        }
+
+        .dashboard-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dashboard-card p {
+            color: #cbd5e1;
+            line-height: 1.6;
+            font-size: 0.93rem;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 22px;
+        }
+
+        .card-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: #e0f2fe;
+            position: relative;
+            z-index: 1;
+            transition: gap 0.3s ease;
+        }
+
+        .dashboard-card:hover .card-action {
+            gap: 14px;
+        }
+
+        .footer-note {
+            margin-top: 34px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.92rem;
+            animation: fadeUp 1.2s ease;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-wrapper {
+                padding: 24px 16px 40px;
+            }
+
+            .brand-section h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero-text h2 {
+                font-size: 1.45rem;
+            }
+
+            .dashboard-card {
+                min-height: 190px;
+            }
+
+            .profile-box {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="floating-orb orb1"></div>
+    <div class="floating-orb orb2"></div>
+    <div class="floating-orb orb3"></div>
+
+    <div class="dashboard-wrapper">
+
+        <div class="topbar">
+            <div class="brand-section">
+                <h1>FinTrack AI Dashboard</h1>
+                <p>Your smart financial command center with insights, control, and future planning.</p>
+            </div>
+
+            <div class="profile-box">
+                <div class="avatar">
+                    {{ user_email[0]|upper if user_email else 'U' }}
+                </div>
+                <div class="profile-info">
+                    <small>Logged in as</small>
+                    <strong>{{ user_email }}</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-panel">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h2>Welcome back 👋</h2>
+                    <p>
+                        Manage your income, track your expenses, monitor your goals, view advanced analytics,
+                        and customize your settings from one beautiful dashboard experience.
+                    </p>
+                </div>
+                <div class="hero-badge">
+                    Secure • Smart • Real-time
+                </div>
+            </div>
+        </div>
+
+
+        <h2 class="section-title">Explore Your Dashboard</h2>
+
+        <div class="dashboard-grid">
+
+            <a href="/income" class="dashboard-card">
+                <div class="card-icon income-icon">₹</div>
+                <h3>Income Profile</h3>
+                <p>
+                    Add and manage your complete income details, salary flow, freelance earnings,
+                    and other revenue sources.
+                </p>
+                <span class="card-action">Open Income →</span>
+            </a>
+
+            <a href="/expense" class="dashboard-card">
+                <div class="card-icon expense-icon">💳</div>
+                <h3>Expenses</h3>
+                <p>
+                    Monitor your spending habits, categorize transactions, and understand where
+                    your money goes every month.
+                </p>
+                <span class="card-action">Open Expenses →</span>
+            </a>
+
+            <a href="/goals" class="dashboard-card">
+                <div class="card-icon goal-icon">🎯</div>
+                <h3>Goals</h3>
+                <p>
+                    Set your financial goals for savings, lifestyle purchases, investments,
+                    or long-term dreams and track progress easily.
+                </p>
+                <span class="card-action">Open Goals →</span>
+            </a>
+
+            <a href="/analytics" class="dashboard-card">
+                <div class="card-icon analytics-icon">📊</div>
+                <h3>Analytics</h3>
+                <p>
+                    View powerful data insights, spending trends, income breakdowns,
+                    and smart predictions for better decisions.
+                </p>
+                <span class="card-action">Open Analytics →</span>
+            </a>
+
+            <a href="/settings" class="dashboard-card">
+                <div class="card-icon settings-icon">⚙</div>
+                <h3>Settings</h3>
+                <p>
+                    Update your profile preferences, account settings, security choices,
+                    and system customization from here.
+                </p>
+                <span class="card-action">Open Settings →</span>
+            </a>
+
+        </div>
+
+        <div class="footer-note">
+            Designed for modern finance management with a premium dark interface.
+        </div>
+
+    </div>
+
+</body>
+</html>

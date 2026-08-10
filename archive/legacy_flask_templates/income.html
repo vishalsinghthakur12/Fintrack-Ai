@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Income Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        body{
+            min-height:100vh;
+            background:
+                radial-gradient(circle at top left, rgba(59,130,246,0.18), transparent 25%),
+                radial-gradient(circle at bottom right, rgba(139,92,246,0.18), transparent 30%),
+                linear-gradient(135deg, #020617, #0f172a 35%, #111827 70%, #030712);
+            color:white;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:30px 16px;
+            overflow-x:hidden;
+        }
+
+        .container{
+            width:100%;
+            max-width:950px;
+            background:rgba(255,255,255,0.06);
+            border:1px solid rgba(255,255,255,0.08);
+            backdrop-filter:blur(16px);
+            border-radius:28px;
+            padding:34px;
+            box-shadow:0 20px 60px rgba(0,0,0,0.35);
+            animation:fadeUp 0.8s ease;
+        }
+
+        .header{
+            margin-bottom:28px;
+        }
+
+        .header h1{
+            font-size:2rem;
+            font-weight:800;
+            background:linear-gradient(90deg,#ffffff,#93c5fd,#c4b5fd);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            margin-bottom:8px;
+        }
+
+        .header p{
+            color:#cbd5e1;
+            font-size:0.96rem;
+            line-height:1.6;
+        }
+
+        .message{
+            padding:14px 16px;
+            border-radius:14px;
+            margin-bottom:20px;
+            font-size:0.95rem;
+        }
+
+        .success{
+            background:rgba(34,197,94,0.12);
+            border:1px solid rgba(34,197,94,0.30);
+            color:#bbf7d0;
+        }
+
+        .error{
+            background:rgba(239,68,68,0.12);
+            border:1px solid rgba(239,68,68,0.30);
+            color:#fecaca;
+        }
+
+        form{
+            display:grid;
+            grid-template-columns:repeat(2, 1fr);
+            gap:20px;
+        }
+
+        .full-width{
+            grid-column:1 / -1;
+        }
+
+        .form-group{
+            display:flex;
+            flex-direction:column;
+        }
+
+        label{
+            margin-bottom:8px;
+            color:#e2e8f0;
+            font-size:0.93rem;
+            font-weight:500;
+        }
+
+        input, select{
+            width:100%;
+            padding:14px 15px;
+            border:none;
+            outline:none;
+            border-radius:14px;
+            background:rgba(255,255,255,0.08);
+            color:white;
+            border:1px solid rgba(255,255,255,0.08);
+            transition:0.3s ease;
+            font-size:0.95rem;
+        }
+
+        input::placeholder{
+            color:#94a3b8;
+        }
+
+        input:focus, select:focus{
+            border-color:rgba(96,165,250,0.7);
+            box-shadow:0 0 0 4px rgba(59,130,246,0.15);
+        }
+
+        select option{
+            color:black;
+        }
+
+        .btn-row{
+            grid-column:1 / -1;
+            display:flex;
+            gap:14px;
+            margin-top:8px;
+            flex-wrap:wrap;
+        }
+
+        .btn{
+            text-decoration:none;
+            border:none;
+            outline:none;
+            padding:14px 24px;
+            border-radius:14px;
+            cursor:pointer;
+            font-size:0.96rem;
+            font-weight:600;
+            transition:0.3s ease;
+        }
+
+        .primary-btn{
+            background:linear-gradient(135deg,#2563eb,#7c3aed);
+            color:white;
+            box-shadow:0 12px 30px rgba(59,130,246,0.25);
+        }
+
+        .primary-btn:hover{
+            transform:translateY(-2px);
+            box-shadow:0 16px 36px rgba(59,130,246,0.32);
+        }
+
+        .secondary-btn{
+            background:rgba(255,255,255,0.08);
+            color:#e2e8f0;
+            border:1px solid rgba(255,255,255,0.08);
+        }
+
+        .secondary-btn:hover{
+            background:rgba(255,255,255,0.12);
+        }
+
+        @keyframes fadeUp{
+            from{
+                opacity:0;
+                transform:translateY(24px);
+            }
+            to{
+                opacity:1;
+                transform:translateY(0);
+            }
+        }
+
+        @media(max-width:768px){
+            .container{
+                padding:24px 18px;
+            }
+
+            form{
+                grid-template-columns:1fr;
+            }
+
+            .header h1{
+                font-size:1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Income Profile</h1>
+            <p>Fill in your income details carefully. This information will help us understand your financial profile better.</p>
+        </div>
+
+        {% if success %}
+            <div class="message success">{{ success }}</div>
+        {% endif %}
+
+        {% if error %}
+            <div class="message error">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST" action="/income">
+            <div class="form-group full-width">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your registered email" required>
+            </div>
+
+            <div class="form-group">
+            </div>
+
+            <div class="form-group">
+                <label for="income_type">Income Type</label>
+                <select id="income_type" name="income_type" required>
+                    <option value="">Select income type</option>
+                    <option value="SALARIED">SALARIED</option>
+                    <option value="PROFESSIONAL">PROFESSIONAL</option>
+                    <option value="BUSINESS">BUSINESS</option>
+                    <option value="OTHERS">OTHERS</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="monthly_income">Monthly Income</label>
+                <input type="number" step="0.01" id="monthly_income" name="monthly_income" placeholder="Enter monthly income" required>
+            </div>
+
+            <div class="form-group">
+                <label for="additional_income_type">Additional Income Type</label>
+                <select id="additional_income_type" name="additional_income_type" required>
+                    <option value="">Select additional income type</option>
+                    <option value="STOCK">STOCK</option>
+                    <option value="INVESTEMENTS">INVESTEMENTS</option>
+                    <option value="BUSINESS">BUSINESS</option>
+                    <option value="OTHERS">OTHERS</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="additional_monthly_income">Additional Monthly Income</label>
+                <input type="number" step="0.01" id="additional_monthly_income" name="additional_monthly_income" placeholder="Enter additional monthly income" required>
+            </div>
+
+            <div class="form-group">
+                <label for="dependants">Dependants</label>
+                <input type="number" id="dependants" name="dependants" placeholder="Enter number of dependants" min="0" max="19" required>
+            </div>
+
+            <div class="btn-row">
+                <button type="submit" class="btn primary-btn">Save Income Profile</button>
+                <a href="/login" class="btn secondary-btn">Back to Dashboard</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

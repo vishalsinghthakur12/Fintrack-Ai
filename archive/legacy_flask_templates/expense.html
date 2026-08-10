@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        body{
+            min-height:100vh;
+            background:
+                radial-gradient(circle at top left, rgba(239,68,68,0.16), transparent 25%),
+                radial-gradient(circle at bottom right, rgba(59,130,246,0.16), transparent 30%),
+                linear-gradient(135deg, #020617, #0f172a 35%, #111827 70%, #030712);
+            color:white;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:30px 16px;
+        }
+
+        .container{
+            width:100%;
+            max-width:1100px;
+            background:rgba(255,255,255,0.06);
+            border:1px solid rgba(255,255,255,0.08);
+            backdrop-filter:blur(16px);
+            border-radius:28px;
+            padding:34px;
+            box-shadow:0 20px 60px rgba(0,0,0,0.35);
+            animation:fadeUp 0.8s ease;
+        }
+
+        .header{
+            margin-bottom:28px;
+        }
+
+        .header h1{
+            font-size:2rem;
+            font-weight:800;
+            background:linear-gradient(90deg,#ffffff,#fca5a5,#93c5fd);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            margin-bottom:8px;
+        }
+
+        .header p{
+            color:#cbd5e1;
+            font-size:0.96rem;
+            line-height:1.6;
+        }
+
+        .message{
+            padding:14px 16px;
+            border-radius:14px;
+            margin-bottom:20px;
+            font-size:0.95rem;
+        }
+
+        .success{
+            background:rgba(34,197,94,0.12);
+            border:1px solid rgba(34,197,94,0.30);
+            color:#bbf7d0;
+        }
+
+        .error{
+            background:rgba(239,68,68,0.12);
+            border:1px solid rgba(239,68,68,0.30);
+            color:#fecaca;
+        }
+
+        form{
+            display:grid;
+            grid-template-columns:repeat(2, 1fr);
+            gap:20px;
+        }
+
+        .full-width{
+            grid-column:1 / -1;
+        }
+
+        .form-group{
+            display:flex;
+            flex-direction:column;
+        }
+
+        label{
+            margin-bottom:8px;
+            color:#e2e8f0;
+            font-size:0.93rem;
+            font-weight:500;
+        }
+
+        input{
+            width:100%;
+            padding:14px 15px;
+            border:none;
+            outline:none;
+            border-radius:14px;
+            background:rgba(255,255,255,0.08);
+            color:white;
+            border:1px solid rgba(255,255,255,0.08);
+            transition:0.3s ease;
+            font-size:0.95rem;
+        }
+
+        input::placeholder{
+            color:#94a3b8;
+        }
+
+        input:focus{
+            border-color:rgba(96,165,250,0.7);
+            box-shadow:0 0 0 4px rgba(59,130,246,0.15);
+        }
+
+        .btn-row{
+            grid-column:1 / -1;
+            display:flex;
+            gap:14px;
+            margin-top:8px;
+            flex-wrap:wrap;
+        }
+
+        .btn{
+            text-decoration:none;
+            border:none;
+            outline:none;
+            padding:14px 24px;
+            border-radius:14px;
+            cursor:pointer;
+            font-size:0.96rem;
+            font-weight:600;
+            transition:0.3s ease;
+        }
+
+        .primary-btn{
+            background:linear-gradient(135deg,#ef4444,#7c3aed);
+            color:white;
+            box-shadow:0 12px 30px rgba(239,68,68,0.25);
+        }
+
+        .primary-btn:hover{
+            transform:translateY(-2px);
+            box-shadow:0 16px 36px rgba(239,68,68,0.32);
+        }
+
+        .secondary-btn{
+            background:rgba(255,255,255,0.08);
+            color:#e2e8f0;
+            border:1px solid rgba(255,255,255,0.08);
+        }
+
+        .secondary-btn:hover{
+            background:rgba(255,255,255,0.12);
+        }
+
+        @keyframes fadeUp{
+            from{
+                opacity:0;
+                transform:translateY(24px);
+            }
+            to{
+                opacity:1;
+                transform:translateY(0);
+            }
+        }
+
+        @media(max-width:768px){
+            .container{
+                padding:24px 18px;
+            }
+
+            form{
+                grid-template-columns:1fr;
+            }
+
+            .header h1{
+                font-size:1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Expense Profile</h1>
+            <p>Fill in your monthly expense details carefully to maintain an accurate financial profile.</p>
+        </div>
+
+        {% if success %}
+            <div class="message success">{{ success }}</div>
+        {% endif %}
+
+        {% if error %}
+            <div class="message error">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST" action="/expense">
+            <div class="form-group full-width">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your registered email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="groceries">Groceries</label>
+                <input type="number" step="0.01" id="groceries" name="groceries" placeholder="Enter groceries amount" required>
+            </div>
+
+            <div class="form-group">
+                <label for="travel">Travel</label>
+                <input type="number" step="0.01" id="travel" name="travel" placeholder="Enter travel amount" required>
+            </div>
+
+            <div class="form-group">
+                <label for="medfit">Medical and Fitness</label>
+                <input type="number" step="0.01" id="medfit" name="medfit" placeholder="Enter medical and fitness amount" required>
+            </div>
+
+            <div class="form-group">
+                <label for="lep">Loan EMI and Premium</label>
+                <input type="number" step="0.01" id="lep" name="lep" placeholder="Enter loan EMI and premium amount" required>
+            </div>
+
+            <div class="form-group">
+                <label for="monthly_rent">Monthly Rent</label>
+                <input type="number" step="0.01" id="monthly_rent" name="monthly_rent" placeholder="Enter monthly rent" required>
+            </div>
+
+            <div class="form-group">
+                <label for="m_bills">Monthly Bills</label>
+                <input type="number" step="0.01" id="m_bills" name="m_bills" placeholder="Enter monthly bills amount" required>
+            </div>
+
+            <div class="form-group">
+                <label for="fashion">Fashion</label>
+                <input type="number" step="0.01" id="fashion" name="fashion" placeholder="Enter fashion amount" required>
+            </div>
+
+            <div class="form-group">
+                <label for="entertainment">Entertainment</label>
+                <input type="number" step="0.01" id="entertainment" name="entertainment" placeholder="Enter entertainment amount" required>
+            </div>
+
+            <div class="form-group">
+                <label for="education">Education</label>
+                <input type="number" step="0.01" id="education" name="education" placeholder="Enter education amount" required>
+            </div>
+
+            <div class="form-group">
+                <label for="emsaving">Emergency Saving</label>
+                <input type="number" step="0.01" id="emsaving" name="emsaving" placeholder="Enter emergency saving amount" required>
+            </div>
+
+            <div class="form-group full-width">
+                <label for="miscellaneous">Miscellaneous</label>
+                <input type="number" step="0.01" id="miscellaneous" name="miscellaneous" placeholder="Enter miscellaneous amount" required>
+            </div>
+
+            <div class="btn-row">
+                <button type="submit" class="btn primary-btn">Save Expense Profile</button>
+                <a href="/dashboard" class="btn secondary-btn">Back to Dashboard</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
